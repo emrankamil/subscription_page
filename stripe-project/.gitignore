@@ -50,3 +50,7 @@ build/config\.gypi
 
 .npmrc
 pnpm-lock.yaml
+
+#enviroment variables
+.env
+.env.local
