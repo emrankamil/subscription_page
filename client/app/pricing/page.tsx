@@ -130,9 +130,14 @@ const handleToggle = (planType: string) => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-[1040px] items-center mx-auto">
-        {billingPlans.map((billingPlan: BillingPlan) => (
-          <PricingCard billingPlan={billingPlan} key={billingPlan.id} isYearly={isYearly} />
-        ))}
+        {billingPlans.map((billingPlan: BillingPlan) => {
+          if (isYearly && billingPlan.title === "WAVIC FREE") {
+            return null;
+          }
+          return (
+            <PricingCard billingPlan={billingPlan} key={billingPlan.id} isYearly={isYearly} />
+          );
+        })}
       </div>
     </section>
   );

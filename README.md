@@ -138,7 +138,7 @@ npm start
 
 ```bash
 git clone https://github.com/emrankamil/subscription_page.git
-cd your-repo-name
+cd subscription_page
 ```
 
 ### Prerequisites

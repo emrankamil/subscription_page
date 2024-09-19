@@ -57,11 +57,16 @@ const PricingCard = ({
         <div>
           <div className="flex flex-col items-center justify-center pt-4">
             <h1 className="text-5xl font-bold">
-              {price &&
-                (price.unit_amount / 100).toLocaleString("en-US", {
+                {billingPlan.title.toLowerCase() === "wavic free"
+                ? (0).toLocaleString("en-US", {
                   style: "currency",
                   currency: "USD",
-                })}
+                  })
+                : price &&
+                  (price.unit_amount / 100).toLocaleString("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                  })}
             </h1>
             <h3>Additional weight just $.05 / lb</h3>
           </div>
