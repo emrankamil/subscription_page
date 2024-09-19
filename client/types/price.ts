@@ -28,4 +28,4 @@ interface Price {
   unit_amount_decimal: string;
 }
 
-export default Price
+export default Price;
