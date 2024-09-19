@@ -12,16 +12,25 @@ const billingPlans: BillingPlan[] = [
     monthlyPrice: "Free",
     annualTotalPrice: "-",
     description: "Basic plan perfect for personal use with limited resources.",
-    features: ["5Gb storage", "1 Artist Space shared", "Basic collaboration tools", "Limited storage"],
+    features: [
+      "5Gb storage",
+      "1 Artist Space shared",
+      "Basic collaboration tools",
+      "Limited storage",
+    ],
     buttonText: "Start Free Trial",
-    prices: { monthlyPriceId: "", annualPriceId: "" }
+    prices: {
+      monthlyPriceId: "price_1Q0WYcIH5eXQuzQWcE9s73wl",
+      annualPriceId: "price_1Q0Wa1IH5eXQuzQWQ30ZfaN7",
+    },
   },
   {
     id: "2",
     title: "WAVIC EXPLORER",
     monthlyPrice: "€4.99",
     annualTotalPrice: "€47.88",
-    description: "Explore more with additional storage and space for small teams.",
+    description:
+      "Explore more with additional storage and space for small teams.",
     features: [
       "200Gb storage",
       "3 Artist Spaces shared",
@@ -33,14 +42,15 @@ const billingPlans: BillingPlan[] = [
     prices: {
       monthlyPriceId: "price_1Q0WYcIH5eXQuzQWcE9s73wl",
       annualPriceId: "price_1Q0Wa1IH5eXQuzQWQ30ZfaN7",
-    }
+    },
   },
   {
     id: "3",
     title: "WAVIC PRO",
     monthlyPrice: "€12.99",
     annualTotalPrice: "€143.88",
-    description: "Ideal for growing teams and professionals looking for unlimited storage and collaboration options.",
+    description:
+      "Ideal for growing teams and professionals looking for unlimited storage and collaboration options.",
     features: [
       "2Tb storage",
       "Unlimited Artist Spaces",
@@ -52,14 +62,15 @@ const billingPlans: BillingPlan[] = [
     prices: {
       monthlyPriceId: "price_1Q0Wd4IH5eXQuzQWmf1fIsuj",
       annualPriceId: "price_1Q0WdeIH5eXQuzQWDYR2gOWv",
-    }
+    },
   },
   {
     id: "4",
     title: "WAVIC PREMIUM",
     monthlyPrice: "€17.99",
     annualTotalPrice: "€215.88",
-    description: "Ideal for growing teams and professionals looking for unlimited storage and collaboration options.",
+    description:
+      "Ideal for growing teams and professionals looking for unlimited storage and collaboration options.",
     features: [
       "4Tb storage",
       "Unlimited Artist Spaces",
@@ -71,7 +82,7 @@ const billingPlans: BillingPlan[] = [
     prices: {
       monthlyPriceId: "price_1Q0WfFIH5eXQuzQWqiEg5wGL",
       annualPriceId: "price_1Q0WfyIH5eXQuzQWqbDdYrfC",
-    }
+    },
   },
 ];
 

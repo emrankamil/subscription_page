@@ -45,6 +45,7 @@ export class SubscriptionController {
     return this.subscriptionService.createSubscriptionSession(
       createSubscriptionDto.user,
       createSubscriptionDto.priceId,
+      createSubscriptionDto.trial,
     );
   }
 }

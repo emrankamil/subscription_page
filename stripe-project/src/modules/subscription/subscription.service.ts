@@ -34,6 +34,7 @@ export class SubscriptionService {
   async createSubscriptionSession(
     user: CreateUserDto,
     priceId: string,
+    trial: boolean,
   ): Promise<Stripe.Response<Stripe.Checkout.Session> | undefined> {
     try {
       const existingCustomers = await this.stripe.customers.list({
@@ -53,12 +54,12 @@ export class SubscriptionService {
 
       // await this.usersService.updateCustomerId(user.id, customer.id);
 
-      return this.stripe.checkout.sessions.create({
+      const sessionParams: Stripe.Checkout.SessionCreateParams = {
         customer: customer.id,
         line_items: [
           {
-            price: priceId,
-            quantity: 1,
+        price: priceId,
+        quantity: 1,
           },
         ],
         mode: 'subscription',
@@ -67,7 +68,15 @@ export class SubscriptionService {
           'http://localhost:3001/return?session_id={CHECKOUT_SESSION_ID}',
         // success_url: 'http://localhost:3000',
         // cancel_url: 'http://localhost:3000/subscription/prices',
-      });
+      };
+
+      if (trial) {
+        sessionParams.subscription_data = {
+          trial_period_days: 30,
+        };
+      }
+
+      return this.stripe.checkout.sessions.create(sessionParams);
     } catch (error) {
       console.error('Error from stripe:', error);
     }

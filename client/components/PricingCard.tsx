@@ -44,7 +44,11 @@ const PricingCard = ({
       : billingPlan.prices.monthlyPriceId;
 
     // Redirect to the payment page with priceId in query parameters
-    router.push(`/payment?priceId=${priceId}`);
+    if (billingPlan.title.toLowerCase() === "wavic free") {
+      router.push(`/payment?priceId=${priceId}&trial=true`);
+    } else {
+      router.push(`/payment?priceId=${priceId}`);
+    }
   };
 
   return (

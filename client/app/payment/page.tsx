@@ -17,6 +17,7 @@ const PaymentPage = () => {
   const searchParams = useSearchParams();
 
   const priceId = searchParams.get("priceId");
+  const isTrial = searchParams.get("trial") === "true";
   const [clientSecret, setClientSecret] = useState<string | null>(null);
 
   useEffect(() => {
@@ -30,6 +31,7 @@ const PaymentPage = () => {
               name: "John Doe", // Replace with actual user data
               email: "john.doe@example.com",
             },
+            trial: isTrial,
           },
           {
             headers: {
@@ -49,7 +51,6 @@ const PaymentPage = () => {
     }
   }, [priceId]);
 
-  console.log(clientSecret);
   const options = { clientSecret };
 
   // Show loading state until clientSecret is retrieved
