@@ -11,6 +11,14 @@ export class SubscriptionService {
     // private usersService: UsersService,
   ) {}
 
+  async getPriceById(id: any): Promise<Stripe.Response<Stripe.Price> | undefined> {
+    try {
+      return await this.stripe.prices.retrieve(id);
+    } catch (error) {
+      console.error('Error from stripe:', error);
+    }
+  }
+
   async getPrices(): Promise<
     Stripe.Response<Stripe.ApiList<Stripe.Price>> | undefined
   > {

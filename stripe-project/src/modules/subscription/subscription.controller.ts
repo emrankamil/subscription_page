@@ -14,6 +14,12 @@ export class SubscriptionController {
     return this.subscriptionService.getPrices();
   }
 
+  @Get('/prices/:id')
+  getPriceById(@Req() req): Promise<Stripe.Response<Stripe.Price> | undefined> {
+    const id = req.params.id;
+    return this.subscriptionService.getPriceById(id);
+  }
+
   @Post('/payment')
   createSubscriptionSession(
     @Body() createSubscriptionDto: CreateSubscriptionDto,

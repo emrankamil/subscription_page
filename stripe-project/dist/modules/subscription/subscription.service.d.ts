@@ -1,8 +1,0 @@
-import Stripe from 'stripe';
-import { CreateUserDto } from '../users/dto/create-user.dto';
-export declare class SubscriptionService {
-    private stripe;
-    constructor(stripe: Stripe);
-    getPrices(): Promise<Stripe.Response<Stripe.ApiList<Stripe.Price>> | undefined>;
-    createSubscriptionSession(user: CreateUserDto, priceId: string): Promise<Stripe.Response<Stripe.Checkout.Session> | undefined>;
-}
