@@ -14,13 +14,31 @@ export class SubscriptionController {
     return this.subscriptionService.getPrices();
   }
 
+  
   @Get('/prices/:id')
   getPriceById(@Req() req): Promise<Stripe.Response<Stripe.Price> | undefined> {
     const id = req.params.id;
     return this.subscriptionService.getPriceById(id);
   }
+  
+  @Get('/checkout_sessions')
+  async getSession(
+    @Req() req,
+  ): Promise<{ status: string; customer_email: string } | undefined> {
+    try {
+      const session = await this.subscriptionService.retrieveSession(
+        req.query.session_id,
+      );
+      return {
+        status: session.status,
+        customer_email: session.customer_email,
+      };
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  }
 
-  @Post('/payment')
+  @Post('/checkout_sessions')
   createSubscriptionSession(
     @Body() createSubscriptionDto: CreateSubscriptionDto,
   ): Promise<Stripe.Response<Stripe.Checkout.Session> | undefined> {

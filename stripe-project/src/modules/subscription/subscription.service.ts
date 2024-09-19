@@ -11,7 +11,9 @@ export class SubscriptionService {
     // private usersService: UsersService,
   ) {}
 
-  async getPriceById(id: any): Promise<Stripe.Response<Stripe.Price> | undefined> {
+  async getPriceById(
+    id: any,
+  ): Promise<Stripe.Response<Stripe.Price> | undefined> {
     try {
       return await this.stripe.prices.retrieve(id);
     } catch (error) {
@@ -34,15 +36,24 @@ export class SubscriptionService {
     priceId: string,
   ): Promise<Stripe.Response<Stripe.Checkout.Session> | undefined> {
     try {
-      const customer = await this.stripe.customers.create({
-        name: user.name,
+      const existingCustomers = await this.stripe.customers.list({
         email: user.email,
       });
+
+      let customer;
+      if (existingCustomers.data.length > 0) {
+        customer = existingCustomers.data[0];
+      } else {
+        // Otherwise, create a new customer
+        customer = await this.stripe.customers.create({
+          name: user.name,
+          email: user.email,
+        });
+      }
 
       // await this.usersService.updateCustomerId(user.id, customer.id);
 
       return this.stripe.checkout.sessions.create({
-        // success_url: 'https://example.com/',
         customer: customer.id,
         line_items: [
           {
@@ -50,10 +61,27 @@ export class SubscriptionService {
             quantity: 1,
           },
         ],
-        mode: 'payment',
+        mode: 'subscription',
         ui_mode: 'embedded',
-        return_url: 'http://localhost:3000',
+        return_url:
+          'http://localhost:3001/return?session_id={CHECKOUT_SESSION_ID}',
+        // success_url: 'http://localhost:3000',
+        // cancel_url: 'http://localhost:3000/subscription/prices',
       });
+    } catch (error) {
+      console.error('Error from stripe:', error);
+    }
+  }
+
+  async retrieveSession(
+    session_id: string,
+  ): Promise<{ status: string; customer_email: string } | undefined> {
+    try {
+      const session = await this.stripe.checkout.sessions.retrieve(session_id);
+      return {
+        status: session.status,
+        customer_email: session.customer_details.email,
+      };
     } catch (error) {
       console.error('Error from stripe:', error);
     }

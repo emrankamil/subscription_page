@@ -1,9 +1,11 @@
+'use client'
+
 import BillingPlan from "@/types/biling_plans";
 import Price from "@/types/price";
 import axios from "axios";
-import Link from "next/link";
 import React, { useEffect } from "react";
 import { AiFillCheckCircle } from "react-icons/ai";
+import { useRouter } from "next/navigation";
 
 const PricingCard = ({
   billingPlan,
@@ -12,14 +14,18 @@ const PricingCard = ({
   billingPlan: BillingPlan;
   isYearly: boolean;
 }) => {
-
   const [price, setPrice] = React.useState<Price>();
+  const router = useRouter();
 
   useEffect(() => {
     const fetchPrice = async () => {
       try {
-        const priceId = isYearly ? billingPlan.prices.annualPriceId : billingPlan.prices.monthlyPriceId;
-        const { data } = await axios.get(`http://localhost:3000/subscription/prices/${priceId}`);
+        const priceId = isYearly
+          ? billingPlan.prices.annualPriceId
+          : billingPlan.prices.monthlyPriceId;
+        const { data } = await axios.get(
+          `http://localhost:3000/subscription/prices/${priceId}`
+        );
         setPrice(data);
       } catch (error) {
         console.error("Error fetching price:", error);
@@ -29,26 +35,16 @@ const PricingCard = ({
     fetchPrice();
   }, [isYearly, billingPlan.prices]);
 
-  // POST request
-  const handleSubscription = async (e: { preventDefault: () => void }) => {
+  const handleSubscription = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    const { data } = await axios.post(
-      "http://localhost:3000/subscription/payment",
-      {
-      priceId: isYearly ? billingPlan.prices.annualPriceId : billingPlan.prices.monthlyPriceId,
-      user: {
-        name: "John Doe",
-        email: "john.doe@example.com",
-      }
-      },
-      {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      }
-    );
-    console.log(data);
-    window.location.assign(data.url);
+
+    // Determine priceId based on the billing plan
+    const priceId = isYearly
+      ? billingPlan.prices.annualPriceId
+      : billingPlan.prices.monthlyPriceId;
+
+    // Redirect to the payment page with priceId in query parameters
+    router.push(`/payment?priceId=${priceId}`);
   };
 
   return (
@@ -61,10 +57,11 @@ const PricingCard = ({
         <div>
           <div className="flex flex-col items-center justify-center pt-4">
             <h1 className="text-5xl font-bold">
-              {price && (price.unit_amount / 100).toLocaleString("en-US", {
-                style: "currency",
-                currency: "USD",
-              })}
+              {price &&
+                (price.unit_amount / 100).toLocaleString("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                })}
             </h1>
             <h3>Additional weight just $.05 / lb</h3>
           </div>
