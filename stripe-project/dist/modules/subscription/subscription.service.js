@@ -20,11 +20,22 @@ let SubscriptionService = class SubscriptionService {
     constructor(stripe) {
         this.stripe = stripe;
     }
+    async getPrices() {
+        try {
+            return this.stripe.prices.list();
+        }
+        catch (error) {
+            console.error('Error from stripe:', error);
+        }
+    }
     async createSubscriptionSession(user, priceId) {
         try {
+            const customer = await this.stripe.customers.create({
+                name: user.name,
+                email: user.email,
+            });
             return this.stripe.checkout.sessions.create({
-                success_url: 'https://example.com/',
-                customer: user.customerId,
+                customer: customer.id,
                 line_items: [
                     {
                         price: priceId,
@@ -32,6 +43,8 @@ let SubscriptionService = class SubscriptionService {
                     },
                 ],
                 mode: 'payment',
+                ui_mode: 'embedded',
+                return_url: 'http://localhost:3000',
             });
         }
         catch (error) {

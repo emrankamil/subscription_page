@@ -6,4 +6,5 @@ export declare class UsersService {
     constructor(userModel: Model<User>);
     create(createUserDto: CreateUserDto): Promise<User>;
     findAll(): Promise<User[]>;
+    updateCustomerId(userId: string, customerId: string): Promise<User>;
 }

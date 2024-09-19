@@ -16,4 +16,26 @@ export class UsersService {
   async findAll(): Promise<User[]> {
     return this.userModel.find().exec();
   }
+
+  async updateCustomerId(userId: string, customerId: string): Promise<User> {
+    try {
+      const user: CreateUserDto = await this.userModel.findById(userId);
+
+      if (!user) {
+        throw new Error('User not found');
+      }
+
+      // Update the customerId field
+      const updatedUser = new this.userModel({
+        ...user,
+        customerId,
+      });
+
+      // Save the updated user
+      return updatedUser.save();
+    } catch (error) {
+      console.error('Error updating customer ID:', error);
+      // Handle error appropriately, e.g., throw an exception or return an error response
+    }
+  }
 }

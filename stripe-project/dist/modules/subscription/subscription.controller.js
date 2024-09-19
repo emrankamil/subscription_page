@@ -20,13 +20,22 @@ let SubscriptionController = class SubscriptionController {
     constructor(subscriptionService) {
         this.subscriptionService = subscriptionService;
     }
+    getPrices() {
+        return this.subscriptionService.getPrices();
+    }
     createSubscriptionSession(createSubscriptionDto) {
         return this.subscriptionService.createSubscriptionSession(createSubscriptionDto.user, createSubscriptionDto.priceId);
     }
 };
 exports.SubscriptionController = SubscriptionController;
 __decorate([
-    (0, common_1.Post)(),
+    (0, common_1.Get)('/prices'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], SubscriptionController.prototype, "getPrices", null);
+__decorate([
+    (0, common_1.Post)('/payment'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_subscription_dto_1.CreateSubscriptionDto]),

@@ -28,6 +28,22 @@ let UsersService = class UsersService {
     async findAll() {
         return this.userModel.find().exec();
     }
+    async updateCustomerId(userId, customerId) {
+        try {
+            const user = await this.userModel.findById(userId);
+            if (!user) {
+                throw new Error('User not found');
+            }
+            const updatedUser = new this.userModel({
+                ...user,
+                customerId,
+            });
+            return updatedUser.save();
+        }
+        catch (error) {
+            console.error('Error updating customer ID:', error);
+        }
+    }
 };
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([
