@@ -1,11 +1,12 @@
-import React from 'react'
+import SubscriptionStatus from "@/components/SubStatus";
+import React from "react";
 
 const Home = () => {
   return (
     <div>
-      Home page
+      <SubscriptionStatus />
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

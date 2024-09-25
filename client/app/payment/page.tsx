@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
@@ -24,7 +24,7 @@ const PaymentPage = () => {
     const fetchClientSecret = async () => {
       try {
         const { data } = await axios.post(
-          "http://localhost:3000/subscription/checkout_sessions",
+          "http://localhost:8080/subscription/checkout_sessions",
           {
             priceId,
             user: {

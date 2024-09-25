@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Script from "next/script";
+import AuthProvider from "@/components/AuthProvider";
+import Nav from "@/components/Nav";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -26,12 +28,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <section>{children}</section>
-        <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
-      </body>
+      <AuthProvider>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <Nav />
+          <section>{children}</section>
+          <script
+            async
+            src="https://js.stripe.com/v3/pricing-table.js"
+          ></script>
+        </body>
+      </AuthProvider>
     </html>
   );
 }

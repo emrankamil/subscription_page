@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import BillingPlan from "@/types/biling_plans";
 import Price from "@/types/price";
@@ -24,7 +24,7 @@ const PricingCard = ({
           ? billingPlan.prices.annualPriceId
           : billingPlan.prices.monthlyPriceId;
         const { data } = await axios.get(
-          `http://localhost:3000/subscription/prices/${priceId}`
+          `http://localhost:8080/subscription/prices/${priceId}`
         );
         setPrice(data);
       } catch (error) {
@@ -61,15 +61,15 @@ const PricingCard = ({
         <div>
           <div className="flex flex-col items-center justify-center pt-4">
             <h1 className="text-5xl font-bold">
-                {billingPlan.title.toLowerCase() === "wavic free"
+              {billingPlan.title.toLowerCase() === "wavic free"
                 ? (0).toLocaleString("en-US", {
-                  style: "currency",
-                  currency: "USD",
+                    style: "currency",
+                    currency: "USD",
                   })
                 : price &&
                   (price.unit_amount / 100).toLocaleString("en-US", {
-                  style: "currency",
-                  currency: "USD",
+                    style: "currency",
+                    currency: "USD",
                   })}
             </h1>
             <h3>Additional weight just $.05 / lb</h3>

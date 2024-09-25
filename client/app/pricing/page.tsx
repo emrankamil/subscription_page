@@ -86,15 +86,13 @@ const billingPlans: BillingPlan[] = [
   },
 ];
 
-
-
 const Pricing = () => {
-const [prices, setPrices] = useState<Price[]>([]);
-const [isYearly, setIsYearly] = useState(false);
+  const [prices, setPrices] = useState<Price[]>([]);
+  const [isYearly, setIsYearly] = useState(false);
 
-const handleToggle = (planType: string) => {
-  setIsYearly(planType === "yearly");
-};
+  const handleToggle = (planType: string) => {
+    setIsYearly(planType === "yearly");
+  };
 
   useEffect(() => {
     fetchPrices();
@@ -102,7 +100,7 @@ const handleToggle = (planType: string) => {
 
   const fetchPrices = async () => {
     const { data } = await axios.get(
-      "http://localhost:3000/subscription/prices"
+      "http://localhost:8080/subscription/prices"
     );
     setPrices(data["data"]);
   };
@@ -146,7 +144,11 @@ const handleToggle = (planType: string) => {
             return null;
           }
           return (
-            <PricingCard billingPlan={billingPlan} key={billingPlan.id} isYearly={isYearly} />
+            <PricingCard
+              billingPlan={billingPlan}
+              key={billingPlan.id}
+              isYearly={isYearly}
+            />
           );
         })}
       </div>
