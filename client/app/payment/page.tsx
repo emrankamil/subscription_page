@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 import axios from "axios";
 import { loadStripe } from "@stripe/stripe-js";
 import {
@@ -20,22 +21,21 @@ const PaymentPage = () => {
   const isTrial = searchParams.get("trial") === "true";
   const [clientSecret, setClientSecret] = useState<string | null>(null);
 
+  const { data: session } = useSession();
+
   useEffect(() => {
     const fetchClientSecret = async () => {
+      if (!session) return;
       try {
         const { data } = await axios.post(
           "http://localhost:8080/subscription/checkout_sessions",
           {
             priceId,
-            user: {
-              name: "John Doe", // Replace with actual user data
-              email: "john.doe@example.com",
-            },
-            trial: isTrial,
           },
           {
             headers: {
               "Content-Type": "application/json",
+              Authorization: `Bearer ${session?.token}`,
             },
           }
         );
@@ -49,7 +49,7 @@ const PaymentPage = () => {
     if (priceId) {
       fetchClientSecret();
     }
-  }, [priceId]);
+  }, [priceId, session]);
 
   const options = { clientSecret };
 
